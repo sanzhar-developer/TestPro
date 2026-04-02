@@ -9,7 +9,7 @@ import TestResult from "./pages/TestResult";
 import Results from "./pages/ResultsPage";
 import ProfilePage from "./pages/ProfilePage";
 import QuestionPage from "./pages/QuestionPage";
-
+import CreateTestPage from "./pages/CreateTestPage";
 
 function App() {
   return (
@@ -25,6 +25,7 @@ function App() {
       <Route path="/results" element={<Results />} />
       <Route path="/profile" element={<ProfilePage />} />
       <Route path="add-question/:testId" element={<QuestionPage />} />
+      <Route path="/create-test" element={<CreateTestPage />} />
     </Routes>
   );
 }

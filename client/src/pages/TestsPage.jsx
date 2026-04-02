@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import HomeHeader from "../components/HomeHeader";
 import "../styles/TestPage.css";
 import PublishButton from "../components/PublishButton";
@@ -7,6 +7,7 @@ import AddQuestionForm from "../components/AddQuestionForm";
 const API_URL = import.meta.env.VITE_API_URL || "https://testpro-production.up.railway.app";
 
 function TestsPage() {
+  const navigate = useNavigate();
   const [tests, setTests] = useState([]);
   const [search, setSearch] = useState("");
   const [loading, setLoading] = useState(true);
@@ -48,7 +49,8 @@ function TestsPage() {
   
 
   return (
-    <div className="tests-page">
+    <>
+      <div className="tests-page">
       <HomeHeader />
 
       <main className="tests-main">
@@ -112,11 +114,22 @@ function TestsPage() {
               </div>
             ))
           ) : (
+            <>
             <p className="status-text">Тесты не найдены</p>
+            <button 
+              className="btn btn-filled" 
+              onClick={() => navigate("/create-test")}
+            >
+              Создать первый тест
+            </button>
+            </>
+            
           )}
         </section>
       </main>
     </div>
+    </>
+    
   );
 }
 
