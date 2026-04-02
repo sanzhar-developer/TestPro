@@ -1,10 +1,11 @@
+const dotenv = require('dotenv');
+dotenv.config();
 const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
 const app = express();
 const PORT = process.env.PORT || 5000;
-const dotenv = require('dotenv');
-dotenv.config();
+
 const authRoutes = require('./routes/authroutes');
 const questionRoutes = require('./routes/questionRoutes');
 const testRoutes = require('./routes/testRoutes');

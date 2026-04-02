@@ -1,11 +1,16 @@
 const mongoose = require("mongoose");
-console.log("MONGO_URI:", process.env.MONGO_URI);
+
 const connectDB = async () => {
   try {
-    await mongoose.connect(process.env.MONGO_URI);
-    console.log("MongoDB подключен");
+    // Используем только ОДИН вызов. 
+    // Если .env не работает, временно вставляем строку сюда напрямую:
+    const connString = process.env.MONGO_URI || "mongodb://sanzhar:sanzhar123@ac-ngxxnmm-shard-00-00.rwvmwrx.mongodb.net:27017,ac-ngxxnmm-shard-00-01.rwvmwrx.mongodb.net:27017,ac-ngxxnmm-shard-00-02.rwvmwrx.mongodb.net:27017/?ssl=true&replicaSet=atlas-11hhev-shard-0&authSource=admin&appName=Cluster192";
+    
+    await mongoose.connect(connString);
+    
+    console.log("✅ MongoDB подключен успешно!");
   } catch (error) {
-    console.error("Ошибка подключения к БД:", error);
+    console.error("❌ Ошибка подключения к БД:", error.message);
     process.exit(1);
   }
 };
