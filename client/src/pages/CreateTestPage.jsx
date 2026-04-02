@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import "../styles/AuthPage.css"; // Можно использовать те же стили или создать новые
+import "../styles/CreateTest.css"; // Можно использовать те же стили или создать новые
 
 const API_URL = import.meta.env.VITE_API_URL || "https://testpro-production.up.railway.app";
 

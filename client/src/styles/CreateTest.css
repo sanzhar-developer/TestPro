@@ -1,0 +1,44 @@
+.create-test-form {
+  max-width: 800px;
+  margin: 0 auto;
+  text-align: left;
+}
+
+/* Стили для каждого блока вопроса */
+.question-block {
+  background: #f9f9ff;
+  padding: 20px;
+  border-radius: 12px;
+  margin-bottom: 30px;
+  border: 1px solid #e0e0ff;
+}
+
+/* Сетка для вариантов ответов */
+.option-row {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  margin-bottom: 12px;
+}
+
+/* Стилизация радио-кнопок */
+.option-row input[type="radio"] {
+  width: 22px;
+  height: 22px;
+  cursor: pointer;
+  accent-color: #6366f1; /* Цвет твоих кнопок */
+}
+
+/* Инпуты вариантов ответов */
+.option-row input[type="text"] {
+  flex: 1;
+  margin-bottom: 0; /* Убираем лишний отступ снизу */
+}
+
+/* Кнопки внизу */
+.form-actions {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 30px;
+  padding-bottom: 50px;
+}
