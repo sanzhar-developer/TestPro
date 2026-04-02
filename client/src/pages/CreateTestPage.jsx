@@ -9,17 +9,27 @@ function CreateTestPage() {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [questions, setQuestions] = useState([
-    { questionText: "", options: ["", "", "", ""], correctAnswer: 0 }
+    // Теперь correctAnswer — это массив []
+    { questionText: "", options: ["", "", "", ""], correctAnswer: [] }
   ]);
 
   const addQuestion = () => {
-    setQuestions([...questions, { questionText: "", options: ["", "", "", ""], correctAnswer: 0 }]);
+    setQuestions([...questions, { questionText: "", options: ["", "", "", ""], correctAnswer: [] }]);
   };
 
   const handleQuestionChange = (index, field, value, optionIndex = null) => {
     const newQuestions = [...questions];
+    
     if (field === "option") {
       newQuestions[index].options[optionIndex] = value;
+    } else if (field === "toggleCorrectAnswer") {
+      // Логика для чекбоксов: добавить или удалить индекс из массива
+      const currentAnswers = newQuestions[index].correctAnswer;
+      if (currentAnswers.includes(optionIndex)) {
+        newQuestions[index].correctAnswer = currentAnswers.filter(i => i !== optionIndex);
+      } else {
+        newQuestions[index].correctAnswer = [...currentAnswers, optionIndex];
+      }
     } else {
       newQuestions[index][field] = value;
     }
@@ -29,6 +39,13 @@ function CreateTestPage() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     const token = localStorage.getItem("token");
+
+    // Валидация: хотя бы один правильный ответ выбран
+    const isValid = questions.every(q => q.correctAnswer.length > 0);
+    if (!isValid) {
+      alert("В каждом вопросе должен быть выбран хотя бы один правильный ответ!");
+      return;
+    }
 
     try {
       const response = await fetch(`${API_URL}/tests`, {
@@ -53,7 +70,7 @@ function CreateTestPage() {
 
   return (
     <div className="page">
-      <h1 className="auth-title">Создание нового теста</h1>
+      <h1 className="auth-title">Создание теста (мультивыбор)</h1>
       <form onSubmit={handleSubmit} className="auth-form">
         
         <label>Название теста</label>
@@ -74,7 +91,6 @@ function CreateTestPage() {
 
         <hr />
 
-        {/* ПРАВИЛЬНЫЙ ЦИКЛ: ОДИН MAP */}
         {questions.map((q, qIndex) => (
           <div key={qIndex} className="question-block">
             <h3>Вопрос №{qIndex + 1}</h3>
@@ -87,14 +103,14 @@ function CreateTestPage() {
             />
             
             <div className="options-container">
-              <label>Варианты ответов (отметьте правильный):</label>
+              <label>Варианты ответов (отметьте все правильные):</label>
               {q.options.map((opt, oIndex) => (
                 <div key={oIndex} className="option-row">
+                  {/* ЗАМЕНЕНО НА CHECKBOX */}
                   <input 
-                    type="radio" 
-                    name={`correct-${qIndex}`} 
-                    checked={q.correctAnswer === oIndex}
-                    onChange={() => handleQuestionChange(qIndex, "correctAnswer", oIndex)}
+                    type="checkbox" 
+                    checked={q.correctAnswer.includes(oIndex)}
+                    onChange={() => handleQuestionChange(qIndex, "toggleCorrectAnswer", null, oIndex)}
                   />
                   <input 
                     type="text" 
