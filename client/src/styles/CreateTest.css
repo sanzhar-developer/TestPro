@@ -50,7 +50,7 @@ input:focus, textarea:focus {
 }
 
 /* Блок вопроса */
-.question-block {
+.question-block[type="text"] {
   background: #f9fafb;
   padding: 20px;
   border-radius: 15px;
@@ -83,7 +83,22 @@ input[type="radio"] {
 }
 
 .option-row input[type="text"] {
-  margin-bottom: 0; /* Убираем нижний отступ внутри ряда */
+  .option-row input[type="checkbox"] {
+  /* Переопределяем огромные размеры */
+  width: 20px !important;  /* Принудительно ставим ширину */
+  height: 20px !important; /* Принудительно ставим высоту */
+  
+  /* Убираем отступы и border-radius, которые мешают */
+  padding: 0 !important;
+  margin: 0 !important;
+  border-radius: 4px !important; /* Небольшое скругление */
+  
+  /* Кастомные настройки */
+  cursor: pointer;
+  accent-color: #6366f1; /* Твой фиолетовый цвет */
+  flex-shrink: 0; /* Чтобы чекбокс не сплющивался */
+  border: 1px solid #e5e7eb; /* Тонкая рамка */
+    }
 }
 
 /* Кнопки */
