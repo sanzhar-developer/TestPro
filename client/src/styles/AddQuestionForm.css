@@ -22,7 +22,21 @@
   gap: 8px;
   margin-bottom: 20px;
 }
-
+.option-row {
+  display: flex;
+  align-items: center; /* Центрирует чекбокс и инпут по вертикали */
+  gap: 12px;           /* Расстояние между чекбоксом и полем ввода */
+  margin-bottom: 12px;
+}
+.option-row input[type="checkbox"] {
+  width: 20px !important;  /* Жесткий размер ширины */
+  height: 20px !important; /* Жесткий размер высоты */
+  cursor: pointer;
+  accent-color: #6366f1;   /* Цвет галочки */
+  flex-shrink: 0;          /* Запрещает чекбоксу сжиматься */
+  margin: 0 !important;    /* Убирает лишние внешние отступы */
+  padding: 0 !important;   /* Убирает внутренние отступы, которые раздувают его */
+}
 .question-input-group label {
   font-size: 14px;
   font-weight: 600;

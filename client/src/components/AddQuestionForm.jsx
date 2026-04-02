@@ -1,37 +1,32 @@
 import React, { useState } from 'react';
-import {useParams} from "react-router-dom";
 const API_URL = import.meta.env.VITE_API_URL || "https://testpro-production.up.railway.app";
 
-import "../styles/AddQuestionForm.css"; // Путь к твоему новому CSS
+import "../styles/AddQuestionForm.css"; 
 
 const AddQuestionForm = ({ testId, refreshTest }) => {
     const [questionText, setQuestionText] = useState("");
     const [options, setOptions] = useState([
-        { text: "", isCorrect: true }, // По умолчанию первый вариант правильный
+        { text: "", isCorrect: false },
         { text: "", isCorrect: false }
     ]);
 
     const user = JSON.parse(localStorage.getItem('user'));
     if (user?.role !== 'admin') return null;
 
-    // Добавление пустого варианта ответа
     const addOption = () => {
         setOptions([...options, { text: "", isCorrect: false }]);
     };
 
-    // Обновление текста конкретного варианта
     const handleOptionChange = (index, value) => {
         const newOptions = [...options];
         newOptions[index].text = value;
         setOptions(newOptions);
     };
 
-    // Выбор правильного ответа (только один может быть true)
+    // УЛУЧШЕНО: Теперь можно выбирать несколько правильных ответов
     const handleCorrectChange = (index) => {
-        const newOptions = options.map((opt, i) => ({
-            ...opt,
-            isCorrect: i === index
-        }));
+        const newOptions = [...options];
+        newOptions[index].isCorrect = !newOptions[index].isCorrect;
         setOptions(newOptions);
     };
 
@@ -39,12 +34,19 @@ const AddQuestionForm = ({ testId, refreshTest }) => {
         e.preventDefault();
         const token = localStorage.getItem('token');
         
+        // Валидация: проверяем, что выбран хотя бы один правильный ответ
+        const hasCorrect = options.some(opt => opt.isCorrect);
+        if (!hasCorrect) {
+            alert("Пожалуйста, выберите хотя бы один правильный ответ.");
+            return;
+        }
+
         const payload = {
-            testId, // Передаем ID теста, к которому крепим вопрос
+            testId, 
             text: questionText,
-            options: options.filter(opt => opt.text.trim() !== "") // Убираем пустые варианты
+            // Фильтруем пустые текстовые поля перед отправкой
+            options: options.filter(opt => opt.text.trim() !== "") 
         };
-        console.log("Отправляем данные:", payload);
 
         try {
             const response = await fetch(`${API_URL}/questions`, {
@@ -58,11 +60,11 @@ const AddQuestionForm = ({ testId, refreshTest }) => {
 
             if (response.ok) {
                 setQuestionText("");
-                setOptions([{ text: "", isCorrect: true }, { text: "", isCorrect: false }]);
+                setOptions([{ text: "", isCorrect: false }, { text: "", isCorrect: false }]);
                 if (typeof refreshTest === 'function') {
                     refreshTest();
                 } 
-                alert("Вопрос добавлен!");
+                alert("Вопрос успешно добавлен!");
             }
         } catch (err) {
             console.error("Ошибка добавления:", err);
@@ -70,28 +72,26 @@ const AddQuestionForm = ({ testId, refreshTest }) => {
     };
 
     return (
-        <>
         <div className="add-question-container">
-            
             <h3>Добавить новый вопрос</h3>
             <form onSubmit={handleSubmit}>
                 <div className="question-input-group">
                     <label>Текст вопроса</label>
                     <input 
+                        className="auth-input"
                         value={questionText} 
                         onChange={(e) => setQuestionText(e.target.value)}
-                        placeholder="Например: Чему равно 2 + 2?"
+                        placeholder="Введите текст вопроса..."
                         required
                     />
                 </div>
 
                 <div className="options-list">
-                    <label>Варианты ответов (отметьте правильный)</label>
+                    <label>Варианты ответов (отметьте все правильные)</label>
                     {options.map((option, index) => (
-                        <div key={index} className="answer-option">
+                        <div key={index} className="option-row"> {/* Используем общий класс для строк */}
                             <input 
-                                type="radio" 
-                                name="correct-answer" 
+                                type="checkbox" // ЗАМЕНЕНО: Чекбокс вместо радио
                                 checked={option.isCorrect}
                                 onChange={() => handleCorrectChange(index)}
                             />
@@ -107,16 +107,15 @@ const AddQuestionForm = ({ testId, refreshTest }) => {
                 </div>
 
                 <div className="form-actions">
-                    <button type="button" className="btn-add-option" onClick={addOption}>
+                    <button type="button" className="btn btn-outline" onClick={addOption}>
                         + Вариант
                     </button>
-                    <button type="submit" className="btn-save-question">
+                    <button type="submit" className="btn btn-filled">
                         Сохранить вопрос
                     </button>
                 </div>
             </form>
         </div>
-        </>
     );
 };
 
