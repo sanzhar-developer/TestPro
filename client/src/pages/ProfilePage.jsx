@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import HomeHeader from "../components/HomeHeader";
-import "../styles/ProfilePage.css"; // Не забудьте создать этот файл
+import "../styles/ProfilePage.css"; 
+const API_URL = import.meta.env.VITE_API_URL;
 
 function ProfilePage() {
   const user = JSON.parse(localStorage.getItem("user"));
@@ -15,7 +16,7 @@ function ProfilePage() {
     const token = localStorage.getItem("token");
     
     try {
-      const res = await fetch("http://localhost:5000/auth/update", {
+      const res = await fetch(`${API_URL}/auth/update`, {
         method: "PUT",
         headers: { 
           "Content-Type": "application/json",

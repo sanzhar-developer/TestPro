@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import '../styles/TestResult.css'; // Импорт стилей
+import '../styles/TestResult.css'; 
+const API_URL = import.meta.env.VITE_API_URL;
 
 const Results = () => {
     const { attemptId } = useParams();
@@ -13,7 +14,7 @@ const Results = () => {
         const fetchResults = async () => {
             try {
                 const token = localStorage.getItem('token');
-                const response = await fetch(`http://localhost:5000/attempts/${attemptId}`, {
+                const response = await fetch(`${API_URL}/attempts/${attemptId}`, {
                     headers: { 'Authorization': `Bearer ${token}` }
                 });
 

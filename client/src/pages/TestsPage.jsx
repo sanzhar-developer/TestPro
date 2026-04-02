@@ -4,6 +4,7 @@ import HomeHeader from "../components/HomeHeader";
 import "../styles/TestPage.css";
 import PublishButton from "../components/PublishButton";
 import AddQuestionForm from "../components/AddQuestionForm";
+const API_URL = import.meta.env.VITE_API_URL;
 
 function TestsPage() {
   const [tests, setTests] = useState([]);
@@ -16,7 +17,7 @@ function TestsPage() {
   const fetchTests = async () => {
         const token = localStorage.getItem("token");
       try {
-        const response = await fetch("http://localhost:5000/tests", {
+        const response = await fetch(`${API_URL}/tests`, {
             method: "GET",
             headers: {
               "Content-Type": "application/json",

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import '../styles/QuizPage.css';
+const API_URL = import.meta.env.VITE_API_URL;
 
 const QuizBlock = () => {
   const token = localStorage.getItem('token');
@@ -19,7 +20,7 @@ const QuizBlock = () => {
   const [userAnswers, setUserAnswers] = useState([]);
 useEffect(() => {
     const startTest = async () => {
-        const res = await fetch(`http://localhost:5000/attempts/start/${id}`, {
+        const res = await fetch(`${API_URL}/attempts/start/${id}`, {
             method: 'POST',
             headers: { 'Authorization': `Bearer ${token}` }
         });
@@ -32,7 +33,7 @@ useEffect(() => {
     const fetchTestData = async () => {
       try {
         const token = localStorage.getItem('token');
-        const response = await fetch(`http://localhost:5000/tests/${id}`, {
+        const response = await fetch(`${API_URL}/tests/${id}`, {
           headers: { 'Authorization': `Bearer ${token}` }
         });
         if (!response.ok) throw new Error('Ошибка загрузки');
@@ -79,7 +80,7 @@ useEffect(() => {
       setCurrentQuestionIndex(prev => prev + 1);
       setSelectedOptions([]); // Сброс для следующего вопроса
     } else {
-      const res = await fetch(`http://localhost:5000/attempts/${attemptId}/submit`, {
+      const res = await fetch(`${API_URL}/attempts/${attemptId}/submit`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',

@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import {useParams} from "react-router-dom";
+const API_URL = import.meta.env.VITE_API_URL;
 
 import "../styles/AddQuestionForm.css"; // Путь к твоему новому CSS
 
@@ -46,7 +47,7 @@ const AddQuestionForm = ({ testId, refreshTest }) => {
         console.log("Отправляем данные:", payload);
 
         try {
-            const response = await fetch(`http://localhost:5000/questions`, {
+            const response = await fetch(`${API_URL}/questions`, {
                 method: 'POST',
                 headers: { 
                     'Content-Type': 'application/json',

@@ -2,6 +2,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import Header from "../components/Header";
 import "../styles/AuthPage.css";
+const API_URL = import.meta.env.VITE_API_URL;
 
 function RegisterPage() {
   const navigate = useNavigate();
@@ -18,7 +19,7 @@ function RegisterPage() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     const response = await fetch(
-      "http://localhost:5000/auth/register",
+      `${API_URL}/auth/register`,
       {
         method: "POST",
         headers: {

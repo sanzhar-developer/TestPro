@@ -1,4 +1,5 @@
 import React from 'react';
+const API_URL = import.meta.env.VITE_API_URL;
 
 const PublishButton = ({ testId, isPublished, onSuccess }) => {
   // Получаем данные пользователя для проверки роли
@@ -13,7 +14,7 @@ const PublishButton = ({ testId, isPublished, onSuccess }) => {
     const token = localStorage.getItem("token");
     
     try {
-      const response = await fetch(`http://localhost:5000/tests/${testId}/activate`, {
+      const response = await fetch(`${API_URL}/tests/${testId}/activate`, {
         method: "PATCH", // Обычно публикация — это обновление статуса (PATCH или PUT)
         headers: {
           "Content-Type": "application/json",

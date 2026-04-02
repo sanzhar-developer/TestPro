@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import '../styles/ResultsPage.css';
 import HomeHeader from "../components/HomeHeader";
+const API_URL = import.meta.env.VITE_API_URL;
 
 const ResultsPage = () => {
     const [attempts, setAttempts] = useState([]);
@@ -12,7 +13,7 @@ const ResultsPage = () => {
         const fetchAttempts = async () => {
             try {
                 const token = localStorage.getItem('token');
-                const response = await fetch('http://localhost:5000/attempts/my-attempts', {
+                const response = await fetch(`${API_URL}/attempts/my-attempts`, {
                     headers: { 'Authorization': `Bearer ${token}` }
                 });
                 const data = await response.json();
