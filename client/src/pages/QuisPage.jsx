@@ -51,7 +51,16 @@ useEffect(() => {
   if (loading) return <div className="quiz-container">Загрузка...</div>;
   if (error) return <div className="quiz-container">Ошибка: {error}</div>;
   
-  const currentQuestion = test.questions[currentQuestionIndex];
+  const currentQuestion = test?.questions?.[currentQuestionIndex];
+
+  // Если данных по вопросу нет, показываем заглушку, чтобы не было ошибки "reading 'type'"
+  if (!currentQuestion) {
+    return (
+      <div className="quiz-container">
+        <div className="quiz-card">Вопрос не найден</div>
+      </div>
+    );
+  }
 
   // Логика выбора ответа
   const handleOptionClick = (index) => {
