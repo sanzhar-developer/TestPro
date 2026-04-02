@@ -56,4 +56,3 @@ npm run dev
 
 MONGODB_URI=твоя_ссылка_на_базу_данных
 JWT_SECRET=твой_секретный_ключ
-PORT=5000
