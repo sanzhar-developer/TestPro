@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import "../styles/CreateTest.css"; // Можно использовать те же стили или создать новые
+import "../styles/CreateTest.css"; 
 
 const API_URL = import.meta.env.VITE_API_URL || "https://testpro-production.up.railway.app";
 
@@ -12,12 +12,10 @@ function CreateTestPage() {
     { questionText: "", options: ["", "", "", ""], correctAnswer: 0 }
   ]);
 
-  // Добавить новый пустой вопрос
   const addQuestion = () => {
     setQuestions([...questions, { questionText: "", options: ["", "", "", ""], correctAnswer: 0 }]);
   };
 
-  // Изменение текста вопроса или вариантов
   const handleQuestionChange = (index, field, value, optionIndex = null) => {
     const newQuestions = [...questions];
     if (field === "option") {
@@ -30,7 +28,7 @@ function CreateTestPage() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const token = localStorage.getItem("token"); // Если у тебя есть авторизация
+    const token = localStorage.getItem("token");
 
     try {
       const response = await fetch(`${API_URL}/tests`, {
@@ -54,9 +52,9 @@ function CreateTestPage() {
   };
 
   return (
-    <div className="page" style={{ padding: "20px" }}>
+    <div className="page">
       <h1 className="auth-title">Создание нового теста</h1>
-      <form onSubmit={handleSubmit} className="auth-form" style={{ maxWidth: "800px", margin: "0 auto" }}>
+      <form onSubmit={handleSubmit} className="auth-form">
         
         <label>Название теста</label>
         <input 
@@ -76,8 +74,9 @@ function CreateTestPage() {
 
         <hr />
 
+        {/* ПРАВИЛЬНЫЙ ЦИКЛ: ОДИН MAP */}
         {questions.map((q, qIndex) => (
-          <div key={qIndex} style={{ marginBottom: "30px", borderBottom: "1px solid #ccc", paddingBottom: "10px" }}>
+          <div key={qIndex} className="question-block">
             <h3>Вопрос №{qIndex + 1}</h3>
             <input 
               type="text" 
@@ -87,10 +86,10 @@ function CreateTestPage() {
               required
             />
             
-            <div style={{ marginTop: "10px" }}>
+            <div className="options-container">
               <label>Варианты ответов (отметьте правильный):</label>
               {q.options.map((opt, oIndex) => (
-                <div key={oIndex} style={{ display: "flex", alignItems: "center", gap: "10px", marginBottom: "5px" }}>
+                <div key={oIndex} className="option-row">
                   <input 
                     type="radio" 
                     name={`correct-${qIndex}`} 

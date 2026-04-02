@@ -1,44 +1,131 @@
-.create-test-form {
-  max-width: 800px;
-  margin: 0 auto;
-  text-align: left;
+/* Основной контейнер страницы */
+.page {
+  background-color: #f5f5f7; /* Светлый фон как на макете */
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
-/* Стили для каждого блока вопроса */
-.question-block {
-  background: #f9f9ff;
-  padding: 20px;
-  border-radius: 12px;
+/* Заголовок */
+.auth-title {
+  color: #4f46e5;
+  font-size: 2rem;
   margin-bottom: 30px;
-  border: 1px solid #e0e0ff;
+  font-weight: 700;
 }
 
-/* Сетка для вариантов ответов */
+/* Форма */
+.auth-form {
+  background: white;
+  padding: 40px;
+  border-radius: 20px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
+  width: 100%;
+}
+
+/* Метки и общие инпуты */
+label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: 600;
+  color: #374151;
+  font-size: 0.9rem;
+}
+
+input[type="text"], 
+textarea {
+  width: 100%;
+  padding: 12px 16px;
+  border: 1px solid #e5e7eb;
+  border-radius: 10px;
+  margin-bottom: 20px;
+  font-size: 1rem;
+  transition: border-color 0.2s;
+}
+
+input:focus, textarea:focus {
+  outline: none;
+  border-color: #6366f1;
+}
+
+/* Блок вопроса */
+.question-block {
+  background: #f9fafb;
+  padding: 20px;
+  border-radius: 15px;
+  margin-bottom: 30px;
+  border: 1px solid #f3f4f6;
+}
+
+.question-block h3 {
+  margin-top: 0;
+  color: #111827;
+  font-size: 1.1rem;
+  margin-bottom: 15px;
+}
+
+/* Стилизация вариантов ответов (выравнивание в ряд) */
 .option-row {
   display: flex;
   align-items: center;
-  gap: 15px;
-  margin-bottom: 12px;
+  gap: 12px;
+  margin-bottom: 10px;
 }
 
-/* Стилизация радио-кнопок */
-.option-row input[type="radio"] {
-  width: 22px;
-  height: 22px;
+/* Скрываем стандартный радио и делаем кастомный или красивый акцентный */
+input[type="radio"] {
+  width: 20px;
+  height: 20px;
   cursor: pointer;
-  accent-color: #6366f1; /* Цвет твоих кнопок */
+  accent-color: #6366f1; /* Цвет точки под стиль кнопок */
+  flex-shrink: 0; /* Чтобы радио не сплющивался */
 }
 
-/* Инпуты вариантов ответов */
 .option-row input[type="text"] {
-  flex: 1;
-  margin-bottom: 0; /* Убираем лишний отступ снизу */
+  margin-bottom: 0; /* Убираем нижний отступ внутри ряда */
 }
 
-/* Кнопки внизу */
-.form-actions {
+/* Кнопки */
+.auth-buttons {
   display: flex;
   justify-content: space-between;
-  margin-top: 30px;
-  padding-bottom: 50px;
+  gap: 20px;
+  margin-top: 20px;
+}
+
+.btn {
+  padding: 12px 24px;
+  border-radius: 10px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+  border: none;
+  font-size: 1rem;
+}
+
+.btn-outline {
+  background: white;
+  color: #6366f1;
+  border: 2px solid #6366f1;
+}
+
+.btn-outline:hover {
+  background: #f5f3ff;
+}
+
+.btn-filled {
+  background: #6366f1;
+  color: white;
+}
+
+.btn-filled:hover {
+  background: #4f46e5;
+  transform: translateY(-1px);
+}
+
+hr {
+  border: 0;
+  border-top: 1px solid #e5e7eb;
+  margin: 30px 0;
 }
