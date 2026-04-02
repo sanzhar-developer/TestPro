@@ -1,0 +1,22 @@
+.header {
+  width: 100%;
+  padding: 18px 40px 0 40px;
+  box-sizing: border-box;
+}
+
+.logo-box {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #6d6de3;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.logo-icon {
+  font-size: 18px;
+}
+
+.logo-text {
+  font-size: 14px;
+}

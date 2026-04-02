@@ -1,0 +1,166 @@
+.header {
+  width: 100%;
+  background: #f8f8fd;
+  border-bottom: 1px solid rgba(110, 110, 180, 0.12);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+.header-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 16px 18px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  text-decoration: none;
+}
+
+.logo-icon {
+  font-size: 26px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.logo-text {
+  font-size: 24px;
+  font-weight: 700;
+  color: #6567e6;
+  letter-spacing: 0.2px;
+}
+
+.nav {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.nav-link {
+  text-decoration: none;
+  color: #444;
+  font-size: 15px;
+  font-weight: 500;
+  padding: 10px 18px;
+  border-radius: 12px;
+  transition: all 0.25s ease;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.nav-link:hover {
+  background: #eef0ff;
+  color: #6567e6;
+}
+
+.nav-link.active {
+  background: linear-gradient(135deg, #7a7cff, #6062da);
+  color: white;
+  box-shadow: 0 8px 18px rgba(96, 98, 218, 0.22);
+}
+.profile-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  text-decoration: none;
+  padding: 6px 12px;
+  border-radius: 12px;
+  transition: background 0.2s;
+}
+
+.profile-item:hover {
+  background: #eef0ff; /* Твой фирменный цвет из Header */
+}
+
+.avatar-circle {
+  width: 32px;
+  height: 32px;
+  background: linear-gradient(135deg, #7a7cff, #6062da); /* Градиент как у кнопки "Актив" */
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 10px; /* Скругленный квадрат */
+  font-weight: 700;
+  font-size: 14px;
+}
+
+.profile-label {
+  color: #444;
+  font-weight: 500;
+  font-size: 15px;
+}
+
+
+@media (max-width: 768px) {
+  .header-container {
+    padding: 12px 16px;
+    gap: 12px;
+    /* Убираем column, оставляем в ряд для экономии места */
+    flex-direction: row; 
+    flex-wrap: wrap;
+  }
+
+  .logo-text {
+    font-size: 20px;
+  }
+
+  .nav {
+    width: 100%;
+    order: 3; /* Переносим навигацию под логотип */
+    justify-content: flex-start;
+    gap: 8px;
+    /* Включаем горизонтальный скролл, если ссылок много */
+    overflow-x: auto;
+    padding-bottom: 4px;
+    scrollbar-width: none; /* Скрываем полосу прокрутки для Firefox */
+  }
+
+  .nav::-webkit-scrollbar {
+    display: none; /* Скрываем полосу прокрутки для Chrome/Safari */
+  }
+
+  .nav-link {
+    font-size: 14px;
+    padding: 8px 12px;
+    white-space: nowrap; /* Чтобы текст не переносился */
+    flex-shrink: 0;
+  }
+}
+
+@media (max-width: 480px) {
+  .header-container {
+    padding: 10px 12px;
+  }
+
+  .logo-icon {
+    font-size: 22px;
+  }
+
+  .logo-text {
+    font-size: 18px;
+  }
+
+  .nav {
+    gap: 5px;
+  }
+
+  .nav-link {
+    padding: 7px 10px;
+    font-size: 13px;
+    border-radius: 10px;
+  }
+  .profile-label {
+    display: none; /* На мобилках оставляем только иконку, чтобы не ломать верстку */
+  }
+}

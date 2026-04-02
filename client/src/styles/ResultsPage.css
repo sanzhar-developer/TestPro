@@ -1,0 +1,182 @@
+/* Основной контейнер */
+.results-page-container {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    background-color: #6a6ec9; /* Фон всей страницы */
+}
+.results-wrapper {
+    flex: 1;
+    display: flex;
+    flex-direction: column; /* Элементы будут идти сверху вниз */
+    align-items: center;    /* Центрируем всё по горизонтали */
+    justify-content: center; /* Начинаем контент сверху */
+    min-height: 100vh;
+    width: 100%;
+    background-color: #6a6ec9; /* Твой фиолетовый */
+    padding: 20px;     /* Больше отступов сверху */
+    box-sizing: border-box;
+    font-family: 'Inter', sans-serif; /* Или твой основной шрифт */
+}
+.results-content-holder {
+    background-color: #ffffff; /* Чистый белый фон */
+    border-radius: 32px;      /* Сильно скругленные углы для мягкости */
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15); /* Мягкая объемная тень */
+    padding: 60px 40px;       /* Внутренние отступы до контента */
+    width: 100%;
+    margin-top: 20px;
+    max-width: 900px;         /* Ограничиваем максимальную ширину */
+    display: flex;
+    flex-direction: column;    /* Контент внутри идет колонкой */
+    align-items: center;       /* Центрируем заголовок и список внутри */
+    animation: scaleUp 0.4s ease-out; /* Плавное появление */
+}
+/* Заголовок страницы (Исправляем черный цвет) */
+.page-title {
+    color: #333333; /* Теперь он белый! */
+    font-size: 2.5rem;
+    font-weight: 800;
+    margin: 0 0 50px 0;
+    text-align: center;
+    text-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+}
+
+/* Список попыток */
+.attempts-list {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 20px; /* Расстояние между карточками */
+}
+
+/* Карточка отдельной попытки */
+.attempt-item {
+    background: rgba(106, 110, 201, 0.08); /* Полупрозрачное стекло */
+    backdrop-filter: blur(8px);
+    border: 1px solid rgba(106, 110, 201, 0.15);
+    padding: 20px 30px;
+    border-radius: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.attempt-item:hover {
+    transform: translateY(-5px);
+    background: rgba(106, 110, 201, 0.15);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+}
+
+/* Текст внутри карточки */
+.attempt-info h3 {
+    color: #333333;
+    margin: 0 0 5px 0;
+    font-size: 1.3rem;
+}
+
+.attempt-info span {
+    color: #666666;
+    font-size: 0.95rem;
+}
+
+/* Бейдж с процентами (сделаем его более читаемым) */
+.score-badge {
+    padding: 10px 20px;
+    border-radius: 12px;
+    font-weight: 700;
+    font-size: 1rem;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+/* Карточка состояния "Пусто" (делаем её копией белого блока) */
+.empty-state-card {
+    background-color: #ffffff; /* Плотный белый фон */
+    border-radius: 32px;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
+    padding: 60px 40px;
+    text-align: center;
+    max-width: 600px; /* Делаем чуть уже основного блока */
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    animation: scaleUp 0.4s ease-out;
+}
+
+/* Иконка кубка */
+.trophy-icon {
+    font-size: 80px;
+    margin-bottom: 25px;
+    display: block;
+}
+
+/* Тексты в пустом состоянии (теперь на белом фоне — делаем темными) */
+.empty-title {
+    font-size: 2.2rem;
+    color: #333333; /* Темный цвет */
+    margin-bottom: 15px;
+    font-weight: 800;
+}
+
+.empty-text {
+    color: #666666; /* Серый цвет */
+    font-size: 1.1rem;
+    line-height: 1.6;
+    margin-bottom: 40px;
+    max-width: 400px;
+}
+
+/* Красивая кнопка */
+.primary-btn {
+    background-color: #6a6ec9; /* Твой фиолетовый */
+    color: #ffffff;
+    border: none;
+    padding: 18px 45px;
+    border-radius: 16px;
+    font-size: 1.1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 10px 20px rgba(106, 110, 201, 0.2);
+}
+
+.primary-btn:hover {
+    background-color: #585cb3;
+    transform: translateY(-3px);
+    box-shadow: 0 15px 25px rgba(106, 110, 201, 0.3);
+}
+/* Цвета для бейджей в зависимости от успеха */
+.score-badge.high { background-color: #4ade80; color: #064e3b; } /* Зеленый */
+.score-badge.low { background-color: #fb7185; color: #4c0519; }  /* Красный */
+
+/* Адаптивность для мобилок */
+@media (max-width: 768px) {
+    .page-title { 
+        font-size: 1.8rem;
+        margin-bottom: 24px;
+    }
+    .results-content-holder {
+        padding: 40px 20px;
+        border-radius: 24px;
+    }
+    .attempt-item {
+        flex-direction: column;
+        text-align: center;
+        gap: 15px;
+    }
+    
+    .score-badge { width: 100%; }
+}
+@media (max-width: 480px) {
+    .attempt-item {
+        flex-direction: column;
+        text-align: center;
+        gap: 10px;
+        padding: 15px;
+    }
+}
+@keyframes scaleUp {
+    from { opacity: 0; transform: scale(0.95); }
+    to { opacity: 1; transform: scale(1); }
+}
