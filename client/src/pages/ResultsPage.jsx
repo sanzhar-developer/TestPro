@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import '../styles/ResultsPage.css';
 import HomeHeader from "../components/HomeHeader";
-const API_URL = import.meta.env.VITE_API_URL;
+const API_URL = import.meta.env.VITE_API_URL || "https://testpro-production.up.railway.app";
 
 const ResultsPage = () => {
     const [attempts, setAttempts] = useState([]);

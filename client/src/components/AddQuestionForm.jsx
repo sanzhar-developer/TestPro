@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import {useParams} from "react-router-dom";
-const API_URL = import.meta.env.VITE_API_URL;
+const API_URL = import.meta.env.VITE_API_URL || "https://testpro-production.up.railway.app";
 
 import "../styles/AddQuestionForm.css"; // Путь к твоему новому CSS
 
