@@ -82,8 +82,8 @@ input[type="radio"] {
   flex-shrink: 0; /* Чтобы радио не сплющивался */
 }
 
-.option-row input[type="text"] {
-  .option-row input[type="checkbox"] {
+
+.option-row input[type="checkbox"] {
   /* Переопределяем огромные размеры */
   width: 20px !important;  /* Принудительно ставим ширину */
   height: 20px !important; /* Принудительно ставим высоту */
@@ -98,8 +98,8 @@ input[type="radio"] {
   accent-color: #6366f1; /* Твой фиолетовый цвет */
   flex-shrink: 0; /* Чтобы чекбокс не сплющивался */
   border: 1px solid #e5e7eb; /* Тонкая рамка */
-    }
 }
+
 
 /* Кнопки */
 .auth-buttons {
