@@ -9,7 +9,7 @@
 .test-settings-grid {
   display: flex;
   gap: 20px;
-  margin-bottom: 10px;
+  width: 100%;
 }
 
 .input-group {
@@ -77,12 +77,14 @@ input:focus, textarea:focus {
   display: flex;
   align-items: center;
   gap: 8px;
+  font-size: 0.9rem;
+  color: #6366f1;
 }
 .points-input input {
-  width: 70px !important; /* Узкое поле для цифр */
-  margin-bottom: 0 !important;
-  padding: 8px !important;
+  width: 50px !important;
+  padding: 5px !important;
   text-align: center;
+  margin: 0 !important;
 }
 /* Стилизация вариантов ответов (выравнивание в ряд) */
 .option-row {
@@ -101,22 +103,12 @@ input[type="radio"] {
   flex-shrink: 0; /* Чтобы радио не сплющивался */
 }
 
-
 .option-row input[type="checkbox"] {
-  /* Переопределяем огромные размеры */
-  width: 20px !important;  /* Принудительно ставим ширину */
-  height: 20px !important; /* Принудительно ставим высоту */
-  
-  /* Убираем отступы и border-radius, которые мешают */
-  padding: 0 !important;
-  margin: 0 !important;
-  border-radius: 4px !important; /* Небольшое скругление */
-  
-  /* Кастомные настройки */
+  all: revert; /* Сбрасываем лишние стили, которые ломают отображение */
+  width: 20px;
+  height: 20px;
   cursor: pointer;
-  accent-color: #6366f1; /* Твой фиолетовый цвет */
-  flex-shrink: 0; /* Чтобы чекбокс не сплющивался */
-  border: 1px solid #e5e7eb; /* Тонкая рамка */
+  accent-color: #6366f1; /* Фиолетовый акцент */
 }
 
 
