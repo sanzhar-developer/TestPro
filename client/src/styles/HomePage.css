@@ -21,8 +21,9 @@ body,
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 32px;
+  
   background: linear-gradient(135deg, #6d6de3 0%, #7c7cf0 100%);
+  width: 100%;
 }
 
 .hero-card {
