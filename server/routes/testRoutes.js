@@ -19,7 +19,7 @@ Router.post("/", authMiddleware, async (req, res) => {
             timeLimit: timeLimit || 0,
             createdBy: req.user.userId
         });
-        await newTest.save();
+        const savedTest = await newTest.save();
         if (questions && Array.isArray(questions) && questions.length > 0) {
             const preparedQuestions = questions.map(q => ({
                 testId: savedTest._id, // Привязываем вопрос к ID только что созданного теста
