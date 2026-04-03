@@ -5,7 +5,7 @@ const Question = require('../models/Question');
 const authMiddleware = require('../middlewares/authMiddleware');
 
 Router.post("/", authMiddleware, async (req, res) => {
-    const {title, description, timeLimit} = req.body;
+    const {title, description, timeLimit, questions} = req.body;
     try {
         if (req.user.role !== "admin") {
             return res.status(403).json({ error: "Доступ запрещен!" });
@@ -20,6 +20,22 @@ Router.post("/", authMiddleware, async (req, res) => {
             createdBy: req.user.userId
         });
         await newTest.save();
+        if (questions && Array.isArray(questions) && questions.length > 0) {
+            const preparedQuestions = questions.map(q => ({
+                testId: savedTest._id, // Привязываем вопрос к ID только что созданного теста
+                text: q.questionText,
+                // Определяем тип: если правильных ответов > 1, то multiple
+                type: q.correctAnswer.length > 1 ? "multiple" : "single", 
+                options: q.options.map((opt, index) => ({
+                    text: opt,
+                    isCorrect: q.correctAnswer.includes(index)
+                })),
+                points: q.points || 1 // Сохраняем баллы
+            }));
+
+            // Массовая вставка в коллекцию questions
+            await Question.insertMany(preparedQuestions);
+        }
         res.status(201).json({ message: "Тест успешно создан!" });
     } catch (error) {
         res.status(500).json({ error: "Ошибка при создании теста!" });
