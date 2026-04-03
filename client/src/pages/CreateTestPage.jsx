@@ -8,13 +8,17 @@ function CreateTestPage() {
   const navigate = useNavigate();
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
+  
+  // 1. Добавляем общее время на тест (в минутах)
+  const [timeLimit, setTimeLimit] = useState(30); 
+
   const [questions, setQuestions] = useState([
-    // Теперь correctAnswer — это массив []
-    { questionText: "", options: ["", "", "", ""], correctAnswer: [] }
+    // 2. Добавляем поле points для каждого вопроса
+    { questionText: "", options: ["", "", "", ""], correctAnswer: [], points: 1 }
   ]);
 
   const addQuestion = () => {
-    setQuestions([...questions, { questionText: "", options: ["", "", "", ""], correctAnswer: [] }]);
+    setQuestions([...questions, { questionText: "", options: ["", "", "", ""], correctAnswer: [], points: 1 }]);
   };
 
   const handleQuestionChange = (index, field, value, optionIndex = null) => {
@@ -23,13 +27,15 @@ function CreateTestPage() {
     if (field === "option") {
       newQuestions[index].options[optionIndex] = value;
     } else if (field === "toggleCorrectAnswer") {
-      // Логика для чекбоксов: добавить или удалить индекс из массива
       const currentAnswers = newQuestions[index].correctAnswer;
       if (currentAnswers.includes(optionIndex)) {
         newQuestions[index].correctAnswer = currentAnswers.filter(i => i !== optionIndex);
       } else {
         newQuestions[index].correctAnswer = [...currentAnswers, optionIndex];
       }
+    } else if (field === "points") {
+      // Превращаем строку в число для баллов
+      newQuestions[index].points = parseInt(value) || 0;
     } else {
       newQuestions[index][field] = value;
     }
@@ -40,12 +46,18 @@ function CreateTestPage() {
     e.preventDefault();
     const token = localStorage.getItem("token");
 
-    // Валидация: хотя бы один правильный ответ выбран
     const isValid = questions.every(q => q.correctAnswer.length > 0);
     if (!isValid) {
       alert("В каждом вопросе должен быть выбран хотя бы один правильный ответ!");
       return;
     }
+
+    const payload = { 
+      title, 
+      description, 
+      timeLimit, // Отправляем лимит времени
+      questions 
+    };
 
     try {
       const response = await fetch(`${API_URL}/tests`, {
@@ -54,7 +66,7 @@ function CreateTestPage() {
           "Content-Type": "application/json",
           "Authorization": `Bearer ${token}` 
         },
-        body: JSON.stringify({ title, description, questions }),
+        body: JSON.stringify(payload),
       });
 
       if (response.ok) {
@@ -70,17 +82,34 @@ function CreateTestPage() {
 
   return (
     <div className="page">
-      <h1 className="auth-title">Создание теста (мультивыбор)</h1>
+      <h1 className="auth-title">Создание теста (настройки)</h1>
       <form onSubmit={handleSubmit} className="auth-form">
         
-        <label>Название теста</label>
-        <input 
-          type="text" 
-          value={title} 
-          onChange={(e) => setTitle(e.target.value)} 
-          placeholder="Например: Основы JavaScript"
-          required 
-        />
+        <div className="test-settings-grid">
+          <div className="input-group">
+            <label>Название теста</label>
+            <input 
+              type="text" 
+              value={title} 
+              onChange={(e) => setTitle(e.target.value)} 
+              placeholder="Например: Основы JavaScript"
+              required 
+            />
+          </div>
+
+          {/* 3. Поле для ввода лимита времени */}
+          <div className="input-group">
+            <label>Лимит времени (минуты)</label>
+            <input 
+              type="number" 
+              min="1"
+              max="300"
+              value={timeLimit} 
+              onChange={(e) => setTimeLimit(e.target.value)}
+              required 
+            />
+          </div>
+        </div>
 
         <label>Описание</label>
         <textarea 
@@ -93,7 +122,21 @@ function CreateTestPage() {
 
         {questions.map((q, qIndex) => (
           <div key={qIndex} className="question-block">
-            <h3>Вопрос №{qIndex + 1}</h3>
+            <div className="question-header">
+              <h3>Вопрос №{qIndex + 1}</h3>
+              
+              {/* 4. Поле для ввода баллов за конкретный вопрос */}
+              <div className="points-input">
+                <label>Баллы:</label>
+                <input 
+                  type="number" 
+                  min="1"
+                  value={q.points}
+                  onChange={(e) => handleQuestionChange(qIndex, "points", e.target.value)}
+                />
+              </div>
+            </div>
+
             <input 
               type="text" 
               placeholder="Введите текст вопроса" 
@@ -103,10 +146,9 @@ function CreateTestPage() {
             />
             
             <div className="options-container">
-              <label>Варианты ответов (отметьте все правильные):</label>
+              <label>Варианты ответов:</label>
               {q.options.map((opt, oIndex) => (
                 <div key={oIndex} className="option-row">
-                  {/* ЗАМЕНЕНО НА CHECKBOX */}
                   <input 
                     type="checkbox" 
                     checked={q.correctAnswer.includes(oIndex)}

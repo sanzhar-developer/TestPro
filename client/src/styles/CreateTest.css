@@ -6,6 +6,15 @@
   flex-direction: column;
   align-items: center;
 }
+.test-settings-grid {
+  display: flex;
+  gap: 20px;
+  margin-bottom: 10px;
+}
+
+.input-group {
+  flex: 1;
+}
 
 /* Заголовок */
 .auth-title {
@@ -50,7 +59,7 @@ input:focus, textarea:focus {
 }
 
 /* Блок вопроса */
-.question-block[type="text"] {
+.question-block {
   background: #f9fafb;
   padding: 20px;
   border-radius: 15px;
@@ -64,7 +73,17 @@ input:focus, textarea:focus {
   font-size: 1.1rem;
   margin-bottom: 15px;
 }
-
+.points-input {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.points-input input {
+  width: 70px !important; /* Узкое поле для цифр */
+  margin-bottom: 0 !important;
+  padding: 8px !important;
+  text-align: center;
+}
 /* Стилизация вариантов ответов (выравнивание в ряд) */
 .option-row {
   display: flex;
