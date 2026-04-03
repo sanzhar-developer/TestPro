@@ -104,64 +104,44 @@
 
 @media (max-width: 768px) {
   .header-container {
-    padding: 12px 16px;
-    gap: 12px;
-    /* Убираем column, оставляем в ряд для экономии места */
-    flex-direction: row; 
-    flex-wrap: wrap;
+    padding: 10px 15px;
+    gap: 10px;
+    justify-content: space-between; /* Лого слева, всё остальное справа */
+    flex-wrap: nowrap; /* Запрещаем перенос на вторую строку */
   }
 
   .logo-text {
-    font-size: 20px;
+    display: none; /* Прячем текст логотипа на маленьких экранах, оставляем иконку */
   }
 
   .nav {
-    width: 100%;
-    order: 3; /* Переносим навигацию под логотип */
-    justify-content: flex-start;
+    width: auto; /* Убираем 100%, чтобы не прыгало вниз */
+    order: 0;    /* Возвращаем в общий поток */
     gap: 8px;
-    /* Включаем горизонтальный скролл, если ссылок много */
-    overflow-x: auto;
-    padding-bottom: 4px;
-    scrollbar-width: none; /* Скрываем полосу прокрутки для Firefox */
-  }
-
-  .nav::-webkit-scrollbar {
-    display: none; /* Скрываем полосу прокрутки для Chrome/Safari */
+    justify-content: flex-end;
   }
 
   .nav-link {
-    font-size: 14px;
-    padding: 8px 12px;
-    white-space: nowrap; /* Чтобы текст не переносился */
-    flex-shrink: 0;
+    padding: 8px; /* Уменьшаем отступы, делаем иконку-кнопку */
   }
+
+  .nav-link span, 
   .profile-label {
-    display: none !important;
+    display: none !important; /* Прячем весь текст в меню */
   }
 
-  /* 2. Делаем сам аватар немного компактнее */
   .avatar-circle {
-    width: 32px;  /* Уменьшаем размер */
+    width: 32px;
     height: 32px;
-    font-size: 14px; /* Уменьшаем букву */
-    box-shadow: 0 1px 4px rgba(109, 109, 227, 0.2);
+    border-radius: 8px; /* Чуть меньше скругление для мобилок */
   }
-
-  /* 3. Гарантируем, что весь хедер не ломается */
-  .header {
-    padding: 0 15px; /* Уменьшаем боковые отступы хедера */
-  }
-
-  .nav {
-    gap: 15px; /* Уменьшаем расстояние между иконками меню */
-  }
-
-  /* Совет: Чтобы все меню уместилось, скройте текст и у других ссылок */
-  .nav-link span {
-    display: none; 
+  
+  .profile-item {
+    padding: 0;
+    margin-left: 4px;
   }
 }
+
 
 @media (max-width: 480px) {
   .header-container {
@@ -187,5 +167,13 @@
   }
   .profile-label {
     display: none; /* На мобилках оставляем только иконку, чтобы не ломать верстку */
+  }
+}
+@media (max-width: 360px) {
+  .nav {
+    gap: 4px;
+  }
+  .header-container {
+    padding: 8px 10px;
   }
 }
