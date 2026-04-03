@@ -67,7 +67,12 @@ function TestsPage() {
             />
           </div>
         </section>
-
+        <button 
+              className="btn btn-filled" 
+              onClick={() => navigate("/create-test")}
+            >
+              Создать первый тест
+        </button>
         <section className="tests-grid">
           {loading ? (
             <p className="status-text">Загрузка...</p>
@@ -116,12 +121,6 @@ function TestsPage() {
           ) : (
             <>
             <p className="status-text">Тесты не найдены</p>
-            <button 
-              className="btn btn-filled" 
-              onClick={() => navigate("/create-test")}
-            >
-              Создать первый тест
-            </button>
             </>
             
           )}
