@@ -1,10 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import '../styles/QuizPage.css';
-const API_URL = import.meta.env.VITE_API_URL || "https://testpro-production.up.railway.app";
+import {APIFetch} from "../components/APIFetch";
 
 const QuizBlock = () => {
-  const token = localStorage.getItem('token');
   const { id } = useParams();
   const navigate = useNavigate();
   const [test, setTest] = useState(null);
@@ -20,9 +19,8 @@ const QuizBlock = () => {
   const [userAnswers, setUserAnswers] = useState([]);
 useEffect(() => {
     const startTest = async () => {
-        const res = await fetch(`${API_URL}/attempts/start/${id}`, {
-            method: 'POST',
-            headers: { 'Authorization': `Bearer ${token}` }
+        const res = await APIFetch(`/attempts/start/${id}`, {
+            method: 'POST'
         });
         const data = await res.json();
         setAttemptId(data.attemptId);
@@ -32,10 +30,7 @@ useEffect(() => {
   useEffect(() => {
     const fetchTestData = async () => {
       try {
-        const token = localStorage.getItem('token');
-        const response = await fetch(`${API_URL}/tests/${id}`, {
-          headers: { 'Authorization': `Bearer ${token}` }
-        });
+        const response = await APIFetch(`/tests/${id}`);
         if (!response.ok) throw new Error('Ошибка загрузки');
         const data = await response.json();
         setTest(data);
@@ -89,11 +84,10 @@ useEffect(() => {
       setCurrentQuestionIndex(prev => prev + 1);
       setSelectedOptions([]); // Сброс для следующего вопроса
     } else {
-      const res = await fetch(`${API_URL}/attempts/${attemptId}/submit`, {
+      const res = await APIFetch(`/attempts/${attemptId}/submit`, {
         method: 'POST',
         headers: {
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${token}`
+            'Content-Type': 'application/json'
         },
         body: JSON.stringify({ answers: updatedAnswers})
       });

@@ -6,7 +6,7 @@ const authMiddleware = require('../middlewares/authMiddleware');
 const calculateScore = require('../utils/calculateScore');
 
 Router.post("/start/:testid", authMiddleware, async (req, res) => {
-    const {testid} = req.params;
+    const { testid } = req.params;
     try {
         const newAttempt = new Attempt({
             userId: req.user.userId,
@@ -16,12 +16,12 @@ Router.post("/start/:testid", authMiddleware, async (req, res) => {
             completed: false
         });
         await newAttempt.save();
-        res.status(201).json({message: "Тест начат!", attemptId: newAttempt._id});
+        res.status(201).json({ message: "Тест начат!", attemptId: newAttempt._id });
     } catch (error) {
-        res.status(500).json({error: "Ошибка при начале теста!"});
+        res.status(500).json({ error: "Ошибка при начале теста!" });
     }
 });
-    
+
 Router.post("/:attemptid/submit", authMiddleware, async (req, res) => {
     const { attemptid } = req.params;
     const { answers } = req.body;
@@ -59,19 +59,18 @@ Router.post("/:attemptid/submit", authMiddleware, async (req, res) => {
         attempt.finishedAt = Date.now();
 
         await attempt.save();
-        
-        res.json({ 
-            message: "Тест завершен!", 
+
+        res.json({
+            message: "Тест завершен!",
             score: attempt.score,
-            percentage: attempt.percentage 
+            percentage: attempt.percentage
         });
 
     } catch (error) {
-        // КРИТИЧЕСКИ ВАЖНО: посмотри на этот вывод в терминале VS Code!
-        console.error("ОШИБКА ПРИ ЗАВЕРШЕНИИ ТЕСТА:", error); 
-        
-        res.status(500).json({ 
-            error: "Ошибка при завершении теста!", 
+        console.error("ОШИБКА ПРИ ЗАВЕРШЕНИИ ТЕСТА:", error);
+
+        res.status(500).json({
+            error: "Ошибка при завершении теста!",
             details: error.message // Выводим детали ошибки для отладки
         });
     }
@@ -82,13 +81,18 @@ Router.get("/my-attempts", authMiddleware, async (req, res) => {
         res.json(attempts);
     } catch (error) {
         console.error("ОШИБКА ПРИ ПОЛУЧЕНИИ ПОПЫТОК:", error);
-        res.status(500).json({error: "Ошибка при получении попыток!"});
+        res.status(500).json({ error: "Ошибка при получении попыток!" });
     }
 });
 Router.get("/:attemptId", authMiddleware, async (req, res) => {
     try {
         const attempt = await Attempt.findById(req.params.attemptId).populate('testId');
-        if (!attempt) return res.status(404).json({ error: "Попытка не найдена" });
+        if (!attempt) {
+            return res.status(404).json({ error: "Попытка не найдена" });
+        }
+        else if (attempt.userId.toString() !== req.user.userId) {
+            return res.status(403).json({ error: "Доступ запрещен!" });
+        }
         res.json(attempt);
     } catch (error) {
         res.status(500).json({ error: "Ошибка сервера" });

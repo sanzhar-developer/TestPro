@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-const API_URL = import.meta.env.VITE_API_URL || "https://testpro-production.up.railway.app";
+import {APIFetch} from "../components/APIFetch";
 
 import "../styles/AddQuestionForm.css"; 
 
@@ -32,7 +32,6 @@ const AddQuestionForm = ({ testId, refreshTest }) => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        const token = localStorage.getItem('token');
         
         // Валидация: проверяем, что выбран хотя бы один правильный ответ
         const hasCorrect = options.some(opt => opt.isCorrect);
@@ -49,11 +48,10 @@ const AddQuestionForm = ({ testId, refreshTest }) => {
         };
 
         try {
-            const response = await fetch(`${API_URL}/questions`, {
+            const response = await APIFetch('/questions', {
                 method: 'POST',
                 headers: { 
                     'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${token}` 
                 },
                 body: JSON.stringify(payload)
             });

@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import '../styles/ResultsPage.css';
 import HomeHeader from "../components/HomeHeader";
-const API_URL = import.meta.env.VITE_API_URL || "https://testpro-production.up.railway.app";
+import {APIFetch} from "../components/APIFetch";
 
 const ResultsPage = () => {
     const [attempts, setAttempts] = useState([]);
@@ -12,10 +12,7 @@ const ResultsPage = () => {
     useEffect(() => {
         const fetchAttempts = async () => {
             try {
-                const token = localStorage.getItem('token');
-                const response = await fetch(`${API_URL}/attempts/my-attempts`, {
-                    headers: { 'Authorization': `Bearer ${token}` }
-                });
+                const response = await APIFetch('/attempts/my-attempts');
                 const data = await response.json();
                 
                 // Безопасная установка данных: проверяем, что пришел массив

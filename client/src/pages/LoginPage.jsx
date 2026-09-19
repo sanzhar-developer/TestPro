@@ -2,7 +2,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import Header from "../components/Header";
 import "../styles/AuthPage.css";
-const API_URL = import.meta.env.VITE_API_URL || "https://testpro-production.up.railway.app";
+import {APIFetch} from "../components/APIFetch";
 
 
 function LoginPage() {
@@ -13,12 +13,10 @@ function LoginPage() {
   });
   const handlelogin = async (e) => {
     e.preventDefault();
-    const response = await fetch(
-      `${API_URL}/auth/login`,
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
+    const response = await APIFetch('/auth/login', {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
         },
         body: JSON.stringify(form),
       }

@@ -1,8 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "../styles/CreateTest.css"; 
-
-const API_URL = import.meta.env.VITE_API_URL || "https://testpro-production.up.railway.app";
+import {APIFetch} from "../components/APIFetch";
 
 function CreateTestPage() {
   const navigate = useNavigate();
@@ -44,7 +43,6 @@ function CreateTestPage() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const token = localStorage.getItem("token");
 
     const isValid = questions.every(q => q.correctAnswer.length > 0);
     if (!isValid) {
@@ -60,11 +58,10 @@ function CreateTestPage() {
     };
 
     try {
-      const response = await fetch(`${API_URL}/tests`, {
+      const response = await APIFetch('/tests', {
         method: "POST",
         headers: {
-          "Content-Type": "application/json",
-          "Authorization": `Bearer ${token}` 
+          "Content-Type": "application/json"
         },
         body: JSON.stringify(payload),
       });

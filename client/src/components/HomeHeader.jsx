@@ -2,6 +2,7 @@ import { Link, useLocation } from "react-router-dom";
 import { HiOutlineHome } from "react-icons/hi";
 import { FaListUl } from "react-icons/fa";
 import { PiTrophyLight } from "react-icons/pi";
+import LogOutButton from "./LogOutButton";
 import "../styles/HomeHeader.css";
 
 function Header() {
@@ -48,6 +49,7 @@ function Header() {
             </div>
             <span className="profile-label">Профиль</span>
           </Link>
+          <LogOutButton />
         </nav>
       </div>
     </header>

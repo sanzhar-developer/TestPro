@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import HomeHeader from "../components/HomeHeader";
 import "../styles/ProfilePage.css"; 
-const API_URL = import.meta.env.VITE_API_URL || "https://testpro-production.up.railway.app";
+import {APIFetch} from "../components/APIFetch";
 
 function ProfilePage() {
   const user = JSON.parse(localStorage.getItem("user"));
@@ -13,14 +13,12 @@ function ProfilePage() {
 
   const handleUpdate = async (e) => {
     e.preventDefault();
-    const token = localStorage.getItem("token");
     
     try {
-      const res = await fetch(`${API_URL}/auth/update`, {
+      const res = await APIFetch('/auth/update', {
         method: "PUT",
         headers: { 
-          "Content-Type": "application/json",
-          "Authorization": `Bearer ${token}` 
+          "Content-Type": "application/json" 
         },
         body: JSON.stringify(formData)
       });

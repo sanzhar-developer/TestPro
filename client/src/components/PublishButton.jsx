@@ -1,5 +1,5 @@
 import React from 'react';
-const API_URL = import.meta.env.VITE_API_URL || "https://testpro-production.up.railway.app";
+import {APIFetch} from "../components/APIFetch";
 
 const PublishButton = ({ testId, isPublished, onSuccess }) => {
   // Получаем данные пользователя для проверки роли
@@ -11,14 +11,12 @@ const PublishButton = ({ testId, isPublished, onSuccess }) => {
   if (!isAdmin || isPublished) return null;
 
   const handlePublish = async () => {
-    const token = localStorage.getItem("token");
-    
+
     try {
-      const response = await fetch(`${API_URL}/tests/${testId}/activate`, {
+      const response = await APIFetch(`/tests/${testId}/activate`, {
         method: "PATCH", // Обычно публикация — это обновление статуса (PATCH или PUT)
         headers: {
           "Content-Type": "application/json",
-          "Authorization": `Bearer ${token}`
         }
       });
 
@@ -36,7 +34,7 @@ const PublishButton = ({ testId, isPublished, onSuccess }) => {
   };
 
   return (
-    <button 
+    <button
       onClick={handlePublish}
       className="publish-btn"
       style={{

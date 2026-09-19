@@ -3,6 +3,7 @@ const Router = express.Router();
 const Test = require('../models/Test');
 const Question = require('../models/Question');
 const authMiddleware = require('../middlewares/authMiddleware');
+const Attempt = require('../models/Attempt');
 
 Router.post("/", authMiddleware, async (req, res) => {
     const {title, description, timeLimit, questions} = req.body;
@@ -60,7 +61,11 @@ Router.get("/:id", authMiddleware, async (req, res) => {
             return res.status(404).json({ error: "Тест не найден!" });
         }
         const questions = await Question.find({ testId: id });
-        res.json({ ...test._doc, questions });
+        const savequestions = req.user.role === "admin" ? questions : questions.map(q => ({
+            ...q._doc,
+            options: q.options.map(opt => ({ text: opt.text })),
+        }));
+        res.json({ ...test._doc, questions: savequestions });
     } catch (error) {
         res.status(500).json({ error: "Ошибка при получении теста!" });
     }
@@ -77,7 +82,9 @@ Router.delete("/:id", authMiddleware, async (req, res) => {
         if (!test) {
             return res.status(404).json({ error: "Тест не найден!" });
         }
-        await test.remove();
+        await Test.findByIdAndDelete(id);
+        await Question.deleteMany({ testId: id });
+        await Attempt.deleteMany({ testId: id });
         res.json({ message: "Тест успешно удален!" });
     } catch (error) {
         res.status(500).json({ error: "Ошибка при удалении теста!" });

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import '../styles/TestResult.css'; 
-const API_URL = import.meta.env.VITE_API_URL || "https://testpro-production.up.railway.app";
+import {APIFetch} from "../components/APIFetch";
 
 const Results = () => {
     const { attemptId } = useParams();
@@ -13,11 +13,7 @@ const Results = () => {
     useEffect(() => {
         const fetchResults = async () => {
             try {
-                const token = localStorage.getItem('token');
-                const response = await fetch(`${API_URL}/attempts/${attemptId}`, {
-                    headers: { 'Authorization': `Bearer ${token}` }
-                });
-
+                const response = await APIFetch(`/attempts/${attemptId}`);
                 if (!response.ok) throw new Error('Не удалось загрузить результаты');
                 const data = await response.json();
                 setResult(data);

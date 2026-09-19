@@ -59,6 +59,14 @@ Router.get("/:testId", authMiddleware, async (req, res) => {
     const { testId } = req.params;
     try {
         const questions = await Question.find({ testId: testId });
+        if (req.user.role !== "admin") {
+            // Фильтруем вопросы, чтобы не показывать правильные ответы
+            const filteredQuestions = questions.map(q => ({
+                ...q._doc,
+                options: q.options.map(opt => ({ text: opt.text }))
+            }));
+            return res.json(filteredQuestions);
+        }
         res.json(questions);
     } catch (error) {
         res.status(500).json({ error: error.message });
